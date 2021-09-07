@@ -24,7 +24,7 @@ def drawAll(img, buttonList):
         cv2.rectangle(img, button.pos, (x + w, y + h), (255, 0, 255), cv2.FILLED)
     # 6. creating one button with text on it
         cv2.putText(img, button.text, (x + 20, y + 60),
-                cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5)
+                    cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5)
 
     return img
 #7 create class for buttons
@@ -60,6 +60,19 @@ while True:
         for button in buttonList:
             x, y = button.pos
             w, h = button.size
+
+            if x < lmList[8][0] < x + w and y < lmList[8][1] < y + h:
+                cv2.rectangle(img, button.pos, (x + w, y + h), (175, 0, 175), cv2.FILLED)
+                cv2.putText(img, button.text, (x + 20, y + 60),
+                            cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5)
+                l, _, _ = detector.findDistance(8, 12, img)
+                print(l)
+
+                if l < 30:
+                    cv2.rectangle(img, button.pos, (x + w, y + h), (0, 255, 0), cv2.FILLED)
+                    cv2.putText(img, button.text, (x + 20, y + 60),
+                                cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5)
+                print(l)
 
     #for x, key in enumerate(keys[0]):
 
