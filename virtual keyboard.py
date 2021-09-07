@@ -16,19 +16,23 @@ keys = [["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
 
 
 
+def drawAll(img, buttonList):
 
+    for button in buttonList:
+        x, y = button.pos
+        w, h = button.size
+        cv2.rectangle(img, button.pos, (x + w, y + h), (255, 0, 255), cv2.FILLED)
+    # 6. creating one button with text on it
+        cv2.putText(img, button.text, (x + 20, y + 60),
+                cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5)
+
+    return img
 #7 create class for buttons
 class Button():
     def __init__(self, pos, text, size=[85, 85]):
         self.pos = pos
         self.size = size
         self.text = text
-        x,y = self.pos
-        w,h = self.size
-        cv2.rectangle(img, self.pos, (x+w, y+h), (255, 0, 255), cv2.FILLED)
-        # 6. creating one button with text on it
-        cv2.putText(img, self.text, (x+20, y+60),
-                    cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5)
 
 
 
@@ -37,7 +41,9 @@ class Button():
 
 #11.create list with loop to show buttons
 buttonList = []
-
+for i in range(len(keys)):
+    for j, key in enumerate(keys[i]):
+        buttonList.append(Button([100 * j + 50, 100 * i + 50], key))
 
 
 
@@ -48,15 +54,10 @@ while True:
     #5.lets create two statements, for find hands and find landmarks points
     img = detector.findHands(img)
     lmList, bboxInfo = detector.findPosition(img)
-
+    img = drawAll(img, buttonList)
     #for x, key in enumerate(keys[0]):
-    for i in range(len(keys)):
-        for j, key in enumerate(keys[i]):
-            buttonList.append(Button([100 * j + 50, 100 * i + 50], key))
 
 
     #img = myButton.draw(img)
-
-
     cv2.imshow("Image", img)
     cv2.waitKey(1)
