@@ -55,6 +55,12 @@ while True:
     img = detector.findHands(img)
     lmList, bboxInfo = detector.findPosition(img)
     img = drawAll(img, buttonList)
+
+    if lmList:
+        for button in buttonList:
+            x, y = button.pos
+            w, h = button.size
+
     #for x, key in enumerate(keys[0]):
 
 
