@@ -2,6 +2,7 @@
 import cv2
 #4.import hand tracking module
 from cvzone.HandTrackingModule import HandDetector
+from time import sleep
 #cam settings
 cap = cv2.VideoCapture(0)
 #1.increase the size, set HD resolution
@@ -13,7 +14,7 @@ detector = HandDetector(detectionCon=0.8)
 keys = [["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
          ["A", "S", "D", "F", "G", "H", "J", "K", "L", "Z"],
          ["X", "C", "V", "B", "N", "M", "/", ".", ",", ";"]]
-
+finalText = ""
 
 
 def drawAll(img, buttonList):
@@ -68,13 +69,18 @@ while True:
                 l, _, _ = detector.findDistance(8, 12, img)
                 print(l)
 
+                #when clicked
                 if l < 30:
                     cv2.rectangle(img, button.pos, (x + w, y + h), (0, 255, 0), cv2.FILLED)
                     cv2.putText(img, button.text, (x + 20, y + 60),
                                 cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5)
-                print(l)
+                    finalText += button.text
+                    sleep(0.15)
+    cv2.rectangle(img, (50, 350), (700, 450), (175, 0, 175), cv2.FILLED)
+    cv2.putText(img, finalText, (60, 430),
+                cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5)
 
-    #for x, key in enumerate(keys[0]):
+
 
 
     #img = myButton.draw(img)
