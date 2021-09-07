@@ -12,10 +12,28 @@ cap.set(4, 720)
 detector = HandDetector(detectionCon=0.8)
 #7 create class for buttons
 class Button():
-    def __init__(self,pos,text,size=[100,100]):
+    def __init__(self, pos, text, size=[85, 85]):
         self.pos = pos
         self.size = size
         self.text = text
+        x,y = self.pos
+        w,h = self.size
+        cv2.rectangle(img, self.pos, (x+w, y+h), (255, 0, 255), cv2.FILLED)
+        # 6. creating one button with text on it
+        cv2.putText(img, self.text, (x+20, y+60),
+                    cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5)
+
+        
+
+#9.create myButton object to show-->
+#-->myButton = Button([100, 100], "Q")
+
+#11.create list with loop to show buttons
+buttonList = []
+
+for x in range (0,5):
+    buttonList.append(Button([100*x+50, 100], "Q"))
+
 
 
 
@@ -26,9 +44,8 @@ while True:
     img = detector.findHands(img)
     lmList, bboxInfo = detector.findPosition(img)
 
+    img = myButton.draw(img)
 
-    cv2.rectangle(img,(100, 100), (200, 200), (255, 0, 255),cv2.FILLED)
-    #6. creating one button with text on it
-    cv2.putText(img, "A", (118,170), cv2.FONT_HERSHEY_PLAIN,5,(255,255,255), 5)
+
     cv2.imshow("Image", img)
     cv2.waitKey(1)
